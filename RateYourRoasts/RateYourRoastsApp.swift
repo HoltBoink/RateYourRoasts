@@ -21,6 +21,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct RateYourRoastsApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject var reviewVM = ReviewViewModel()
+    
     var body: some Scene {
         WindowGroup {
             LoginView()

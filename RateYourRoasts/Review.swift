@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct Review: Identifiable, Codable {
+struct Review: Identifiable, Codable, Equatable {
     @DocumentID var id: String?
     var name = ""
     var coffeeName = ""

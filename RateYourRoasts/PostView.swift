@@ -16,6 +16,7 @@ struct PostView: View {
     @State private var isEditing2 = false
     @State private var isEditing3 = false
     @State private var isEditing4 = false
+    @StateObject var postVM = PostViewModel()
     
     var body: some View {
         NavigationStack {
@@ -39,7 +40,7 @@ struct PostView: View {
                     .bold()
                 
                 HStack {
-                    StarSelectionView(rating: post.rating)
+                    StarSelectionView(rating: $post.rating)
                         .overlay {
                             RoundedRectangle(cornerRadius: 5)
                                 .stroke(.gray.opacity(0.5), lineWidth: 2)
@@ -87,38 +88,6 @@ struct PostView: View {
                             isEditing = editing
                         }
                         HStack {
-                            Text("Acidity:")
-                            let rounded = Int(post.acidity)
-                            Text("\(rounded)")
-                                .foregroundColor(isEditing2 ? .red : .blue)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        Slider(value: $post.acidity, in: 0...10, step: 1) {
-                            Text("Acidity")
-                        } minimumValueLabel: {
-                            Text("0")
-                        } maximumValueLabel: {
-                            Text("10")
-                        } onEditingChanged: { editing in
-                            isEditing2 = editing
-                        }
-                        HStack {
-                            Text("Body:")
-                            let rounded = Int(post.bodyRating)
-                            Text("\(rounded)")
-                                .foregroundColor(isEditing3 ? .red : .blue)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        Slider(value: $post.bodyRating, in: 0...10, step: 1) {
-                            Text("Body")
-                        } minimumValueLabel: {
-                            Text("0")
-                        } maximumValueLabel: {
-                            Text("10")
-                        } onEditingChanged: { editing in
-                            isEditing3 = editing
-                        }
-                        HStack {
                             Text("Flavor:")
                             let rounded = Int(post.flavor)
                             Text("\(rounded)")
@@ -150,8 +119,14 @@ struct PostView: View {
             }
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button("Save") {
-                    //TODO: Save code
-                    dismiss()
+                    Task {
+                        let success = await postVM.savePost(review: review, post: post)
+                        if success {
+                            dismiss()
+                        } else {
+                            print("ERROR saving data in PostView")
+                        }
+                    }
                 }
             }
         }
