@@ -12,14 +12,6 @@ struct ReviewDetailView: View {
     @State var review: Review
     @Environment(\.dismiss) private var dismiss
     @State private var showCoffeeLookupSheet = false
-    @State private var bodyRating = 0.0
-    @State private var aroma = 0.0
-    @State private var acidity = 0.0
-    @State private var flavor = 0.0
-    @State private var isEditing = false
-    @State private var isEditing2 = false
-    @State private var isEditing3 = false
-    @State private var isEditing4 = false
     
     var body: some View {
         VStack {
@@ -36,74 +28,6 @@ struct ReviewDetailView: View {
                     .stroke(.gray.opacity(0.5), lineWidth: review.id == nil ? 2 : 0)
             }
             .padding(.horizontal)
-            
-            Spacer()
-            
-            Group {
-                HStack {
-                    Text("Aroma:")
-                    Text("\(review.aroma)")
-                            .foregroundColor(isEditing ? .red : .blue)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                Slider(value: $review.aroma, in: 0...10, step: 1) {
-                    Text("Aroma")
-                } minimumValueLabel: {
-                    Text("0")
-                } maximumValueLabel: {
-                    Text("10")
-                } onEditingChanged: { editing in
-                    isEditing = editing
-                }
-                HStack {
-                    Text("Acidity:")
-                    Text("\(Int(acidity))")
-                            .foregroundColor(isEditing2 ? .red : .blue)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                Slider(value: $acidity, in: 0...10, step: 1) {
-                    Text("Acidity")
-                } minimumValueLabel: {
-                    Text("0")
-                } maximumValueLabel: {
-                    Text("10")
-                } onEditingChanged: { editing in
-                    isEditing2 = editing
-                }
-                HStack {
-                    Text("Body:")
-                    Text("\(Int(bodyRating))")
-                            .foregroundColor(isEditing3 ? .red : .blue)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                Slider(value: $bodyRating, in: 0...10, step: 1) {
-                    Text("Body")
-                } minimumValueLabel: {
-                    Text("0")
-                } maximumValueLabel: {
-                    Text("10")
-                } onEditingChanged: { editing in
-                    isEditing3 = editing
-                }
-                HStack {
-                    Text("Flavor:")
-                    Text("\(Int(flavor))")
-                            .foregroundColor(isEditing4 ? .red : .blue)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                Slider(value: $flavor, in: 0...10, step: 1) {
-                    Text("Body")
-                } minimumValueLabel: {
-                    Text("0")
-                } maximumValueLabel: {
-                    Text("10")
-                } onEditingChanged: { editing in
-                    isEditing4 = editing
-                }
-            }
-            .disabled(review.id == nil ? false : true)
-            .padding(.horizontal)
-            
             
             Spacer()
             
