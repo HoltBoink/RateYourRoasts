@@ -15,14 +15,44 @@ struct RecipesView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                List {
-                    ForEach(recipeVM.recipeArray) { recipe in
-                        Text(recipe.title)
+                List (recipeVM.recipeArray) { recipe in
+                    HStack (alignment: .top) {
+                        AsyncImage(url: URL(string: recipe.image)) {phase in
+                            if let image = phase.image {
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                                    .cornerRadius(15)
+                                    .shadow(radius: 15)
+                                    .animation(.default, value: image)
+                            } else if phase.error != nil {
+                                Image(systemName: "photo")
+                                    .resizable()
+                                    .scaledToFit()
+                            }
+                        }
+                        .frame(maxWidth: 90, maxHeight: 90)
+                        VStack (alignment: .leading) {
+                            Text(recipe.title)
+                                .font(.title)
+                                .bold()
+                            Text(recipe.description)
+                            
+                            Text("Ingredients:")
+                                .padding(.top)
+                                .bold()
+                                .font(.title2)
+                            
+                            ForEach(recipe.ingredients, id: \.self) { ingredient in
+                                Text(" -\(ingredient)")
+                            }
+                        }
                     }
                 }
-                .navigationTitle("☕️ Recipes")
-                .navigationBarTitleDisplayMode(.automatic)
+                .listStyle(.plain)
             }
+            .navigationTitle("☕️ Recipes")
+            .navigationBarTitleDisplayMode(.automatic)
         }
         .toolbar {
             ToolbarItem (placement: .cancellationAction) {
@@ -30,6 +60,9 @@ struct RecipesView: View {
                     dismiss()
                 }
             }
+        }
+        .task {
+            await recipeVM.getData()
         }
     }
 }

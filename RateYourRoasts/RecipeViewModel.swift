@@ -9,8 +9,12 @@ import Foundation
 @MainActor
 
 class RecipeViewModel: ObservableObject {
+//    private struct Returned: Codable {
+//        var results: [Recipe]
+//    }
+    
     @Published var recipeArray: [Recipe] = []
-    @Published var urlString = "https://api.sampleapis.com/coffee/hot"
+    @Published var urlString = "https://api.sampleapis.com/coffee/iced"
     
     func getData() async {
         print("Accessing the url \(urlString)")
@@ -29,22 +33,4 @@ class RecipeViewModel: ObservableObject {
             print("ERROR: could not use URL at \(urlString) to get data and response")
         }
     }
-    
-//    func loadNextIfNeeded(recipe: Recipe) async {
-//        guard let lastSpecies = speciesArray.last else {
-//            return
-//        }
-//        if species.id == lastSpecies.id && urlString.hasPrefix("http") {
-//            Task {
-//                await getData()
-//            }
-//        }
-//    }
-//    
-//    func loadAll() async {
-//        guard urlString.hasPrefix("http") else {return}
-//        await getData()
-//        await loadAll()
-//    }
-    
 }
