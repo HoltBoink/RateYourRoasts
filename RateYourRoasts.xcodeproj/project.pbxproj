@@ -16,6 +16,7 @@
 		0F1F80D229FC892D00294E84 /* ReviewPostRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1F80D129FC892D00294E84 /* ReviewPostRowView.swift */; };
 		0F1F80D429FCA42B00294E84 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1F80D329FCA42B00294E84 /* Photo.swift */; };
 		0F1F80D629FCA6E200294E84 /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1F80D529FCA6E200294E84 /* PhotoView.swift */; };
+		0F1F80D829FCBB2F00294E84 /* ReviewDetailPhotosScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1F80D729FCBB2F00294E84 /* ReviewDetailPhotosScrollView.swift */; };
 		0F900AB729F86DED0041CFD3 /* RateYourRoastsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F900AB629F86DED0041CFD3 /* RateYourRoastsApp.swift */; };
 		0F900AB929F86DED0041CFD3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F900AB829F86DED0041CFD3 /* LoginView.swift */; };
 		0F900ABB29F86DF10041CFD3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F900ABA29F86DF10041CFD3 /* Assets.xcassets */; };
@@ -41,6 +42,7 @@
 		0F1F80D129FC892D00294E84 /* ReviewPostRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPostRowView.swift; sourceTree = "<group>"; };
 		0F1F80D329FCA42B00294E84 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		0F1F80D529FCA6E200294E84 /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
+		0F1F80D729FCBB2F00294E84 /* ReviewDetailPhotosScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDetailPhotosScrollView.swift; sourceTree = "<group>"; };
 		0F900AB329F86DED0041CFD3 /* RateYourRoasts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RateYourRoasts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F900AB629F86DED0041CFD3 /* RateYourRoastsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateYourRoastsApp.swift; sourceTree = "<group>"; };
 		0F900AB829F86DED0041CFD3 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				0F900AD129FA1AC40041CFD3 /* ListView.swift */,
 				0F900AD529FAC78D0041CFD3 /* RecipesView.swift */,
 				0F900AD929FACCA00041CFD3 /* ReviewDetailView.swift */,
+				0F1F80D729FCBB2F00294E84 /* ReviewDetailPhotosScrollView.swift */,
 				0F1F80D129FC892D00294E84 /* ReviewPostRowView.swift */,
 				0F1F80CB29FC5EED00294E84 /* PostView.swift */,
 				0F1F80D529FCA6E200294E84 /* PhotoView.swift */,
@@ -212,6 +215,7 @@
 				0F1F80CA29FC5E3A00294E84 /* Post.swift in Sources */,
 				0F1F80D229FC892D00294E84 /* ReviewPostRowView.swift in Sources */,
 				0F900AD829FACBDD0041CFD3 /* Review.swift in Sources */,
+				0F1F80D829FCBB2F00294E84 /* ReviewDetailPhotosScrollView.swift in Sources */,
 				0F1F80CC29FC5EED00294E84 /* PostView.swift in Sources */,
 				0F1F80C229FB777E00294E84 /* CoffeeLookupView.swift in Sources */,
 			);

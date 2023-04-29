@@ -16,6 +16,7 @@ struct ReviewDetailView: View {
     
     @EnvironmentObject var reviewVM: ReviewViewModel
     @FirestoreQuery(collectionPath: "reviews") var posts: [Post]
+    @FirestoreQuery(collectionPath: "reviews") var photos: [Photo]
     @State var review: Review
     @Environment(\.dismiss) private var dismiss
     @State private var showingAsSheet = false
@@ -23,6 +24,7 @@ struct ReviewDetailView: View {
     @State private var showPostViewSheet = false
     @State private var showSaveAlert = false
     @State private var showPhotoViewSheet = false
+    @State var newPhoto = Photo()
     @State private var buttonPressed = ButtonPressed.post
     @State private var selectedPhoto: PhotosPickerItem?
     @State private var uiImageSelected = UIImage()
@@ -52,6 +54,7 @@ struct ReviewDetailView: View {
             }
             .padding(.horizontal)
             
+            ReviewDetailPhotosScrollView(photos: photos, review: review)
             
             HStack {
                 Group {
@@ -80,7 +83,7 @@ struct ReviewDetailView: View {
                                     if let uiImage = UIImage(data: data) {
                                         uiImageSelected = uiImage
                                         print("Successfully selected Image!")
-//                                        newPhoto = Photo()
+                                        newPhoto = Photo()
                                         buttonPressed = .photo
                                         if review.id == nil {
                                             showSaveAlert.toggle()
@@ -132,6 +135,9 @@ struct ReviewDetailView: View {
             if !previewRunning && review.id != nil {
                 $posts.path = "reviews/\(review.id ?? "")/posts"
                 print("posts.path = \($posts.path)")
+                
+                $photos.path = "reviews/\(review.id ?? "")/photos"
+                print("photos.path = \($photos.path)")
             } else {
                 showingAsSheet = true
             }
@@ -192,7 +198,7 @@ struct ReviewDetailView: View {
         }
         .sheet(isPresented: $showPhotoViewSheet) {
             NavigationStack {
-                PhotoView(uiImage: uiImageSelected, review: review)
+                PhotoView(photo: $newPhoto, uiImage: uiImageSelected, review: review)
             }
         }
         .alert("Cannot Rate a Coffee Unless It is Saved", isPresented: $showSaveAlert) {
@@ -203,13 +209,7 @@ struct ReviewDetailView: View {
                     review = reviewVM.review
                     if success {
                         $posts.path = "reviews/\(review.id ?? "")/posts"
-//                        $photos.path = "reviews/\(review.id ?? "")/photso"
-                        switch buttonPressed {
-                        case .post:
-                            showPostViewSheet.toggle()
-                        case .photo:
-                            showPhotoViewSheet.toggle()
-                        }
+                        $photos.path = "reviews/\(review.id ?? "")/photos"
                         showPostViewSheet.toggle()
                     } else {
                         print("Error saving review!")
