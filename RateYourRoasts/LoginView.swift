@@ -24,7 +24,7 @@ struct LoginView: View {
     
     var body: some View {
         VStack {
-            Image(systemName: "swift")
+            Image("launchscreen")
                 .resizable()
                 .scaledToFit()
                 .padding()
