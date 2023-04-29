@@ -16,10 +16,10 @@ struct Post: Identifiable, Codable {
     var rating = 0
     var aroma = 0.0
     var flavor = 0.0
-    var reviewer = ""
+    var reviewer = Auth.auth().currentUser?.email ?? ""
     var postedOn = Date()
     
     var dictionary: [String: Any] {
-        return["title": title, "review": review, "rating": rating, "aroma": aroma, "flavor": flavor, "reviewer": Auth.auth().currentUser?.email ?? "", "postedOn": Timestamp(date: Date())]
+        return["title": title, "review": review, "rating": rating, "aroma": aroma, "flavor": flavor, "reviewer": reviewer, "postedOn": Timestamp(date: Date())]
     }
 }

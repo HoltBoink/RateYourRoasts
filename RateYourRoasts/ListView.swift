@@ -21,8 +21,14 @@ struct ListView: View {
                 NavigationLink {
                     ReviewDetailView(review: review)
                 } label: {
-                    Text(review.name)
-                        .font(.title2)
+                    VStack (alignment: .leading) {
+                        Text(review.name)
+                            .font(.title2)
+                            .bold()
+                        Text(review.coffeeName)
+                            .font(.title3)
+                    }
+                    
                 }
                 
             }

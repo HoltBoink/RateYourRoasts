@@ -10,22 +10,24 @@ import SwiftUI
 struct StarSelectionView: View {
     @Binding var rating: Int
     let highestRating = 5
-    let unselected = Image(systemName: "star")
-    let selected = Image(systemName: "star.fill")
-    let font: Font = .largeTitle
-    let fillColor: Color = .red
-    let emptyColor: Color = .gray
+    let unselected = Image("bean")
+    let selected = Image("beanfill")
+    var scaleNum = 40.0
+    @State var interactive = true
     
     var body: some View {
         HStack {
             ForEach(1...highestRating, id: \.self) { number in
                 showStar(for: number)
-                    .foregroundColor(number <= rating ? fillColor : emptyColor)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxHeight: scaleNum)
                     .onTapGesture {
-                        rating = number
+                        if interactive {
+                            rating = number
+                        }
                     }
             }
-            .font(font)
         }
     }
     func showStar( for number: Int) -> Image {

@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct PostView: View {
     @State var review: Review
     @State var post: Post
+    @State var postedByThisUser = false
     @Environment(\.dismiss) private var dismiss
     
+    @State private var rateOrReviewerString = "Click to Rate:"
     @State private var isEditing = false
     @State private var isEditing2 = false
     @State private var isEditing3 = false
@@ -19,7 +22,7 @@ struct PostView: View {
     @StateObject var postVM = PostViewModel()
     
     var body: some View {
-        NavigationStack {
+//        NavigationStack {
             VStack {
                 VStack (alignment: .leading){
                     Text(review.name)
@@ -35,15 +38,19 @@ struct PostView: View {
                 
                 Spacer()
                 
-                Text("Click to Rate:")
-                    .font(.title2)
-                    .bold()
+                Text(rateOrReviewerString)
+                    .font(postedByThisUser ? .title2 : .subheadline)
+                    .bold(postedByThisUser)
+                    .minimumScaleFactor(0.5)
+                    .lineLimit(1)
+                    .padding(.horizontal)
                 
                 HStack {
                     StarSelectionView(rating: $post.rating)
+                        .disabled(!postedByThisUser)
                         .overlay {
                             RoundedRectangle(cornerRadius: 5)
-                                .stroke(.gray.opacity(0.5), lineWidth: 2)
+                                .stroke(.gray.opacity(0.5), lineWidth: postedByThisUser ? 2 : 0)
                         }
                 }
                 .padding(.bottom)
@@ -53,10 +60,10 @@ struct PostView: View {
                         .bold()
                     
                     TextField("title", text: $post.title)
-                        .textFieldStyle(.roundedBorder)
+                        .padding(.horizontal, 6)
                         .overlay {
                             RoundedRectangle(cornerRadius: 5)
-                                .stroke(.gray.opacity(0.5), lineWidth: 2)
+                                .stroke(.gray.opacity(0.5), lineWidth: postedByThisUser ? 2 : 0)
                         }
                     
                     Text("Review")
@@ -64,10 +71,10 @@ struct PostView: View {
                     
                     TextField("review", text: $post.review, axis: .vertical)
                         .padding(.horizontal, 6)
-                        .frame(maxHeight: 100, alignment: .leading)
+                        .frame(maxHeight: 100, alignment: .topLeading)
                         .overlay {
                             RoundedRectangle(cornerRadius: 5)
-                                .stroke(.gray.opacity(0.5), lineWidth: 2)
+                                .stroke(.gray.opacity(0.5), lineWidth: postedByThisUser ? 2 : 0)
                         }
                     
                     Group {
@@ -106,26 +113,54 @@ struct PostView: View {
                     }
                     .padding(.horizontal)
                 }
+                .disabled(!postedByThisUser)
                 .padding(.horizontal)
                 
                 Spacer()
             }
-        }
-        .toolbar {
-            ToolbarItemGroup(placement: .cancellationAction) {
-                Button("Cancel") {
-                    dismiss()
+            .onAppear {
+                if post.reviewer == Auth.auth().currentUser?.email {
+                    postedByThisUser = true
+                } else {
+                    let reviewPostedOn = post.postedOn.formatted(date: .numeric, time: .omitted)
+                    rateOrReviewerString = "by: \(post.reviewer) on: \(reviewPostedOn)"
                 }
             }
-            ToolbarItemGroup(placement: .navigationBarTrailing) {
-                Button("Save") {
-                    Task {
-                        let success = await postVM.savePost(review: review, post: post)
-                        if success {
-                            dismiss()
-                        } else {
-                            print("ERROR saving data in PostView")
+            .navigationBarBackButtonHidden(postedByThisUser)
+        
+        .toolbar {
+            if postedByThisUser {
+                ToolbarItemGroup(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                }
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Button("Save") {
+                        Task {
+                            let success = await postVM.savePost(review: review, post: post)
+                            if success {
+                                dismiss()
+                            } else {
+                                print("ERROR saving data in PostView")
+                            }
                         }
+                    }
+                }
+                if post.id != nil {
+                    ToolbarItemGroup (placement: .bottomBar) {
+                        Spacer()
+                        Button {
+                            Task {
+                                let success = await postVM.deleteReview(review: review, post: post)
+                                if success {
+                                    dismiss()
+                                }
+                            }
+                        } label: {
+                            Image(systemName: "trash")
+                        }
+                        
                     }
                 }
             }
